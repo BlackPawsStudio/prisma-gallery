@@ -1,5 +1,4 @@
-import { CSSProperties, ReactNode } from 'react';
-import styles from './index.module.css';
+import { CSSProperties, ReactNode } from "react";
 
 interface SideProps {
   customStyle?: CSSProperties;
@@ -8,7 +7,10 @@ interface SideProps {
 
 const Side = ({ customStyle, children }: SideProps) => {
   return (
-    <div className={styles['container']} style={customStyle}>
+    <div
+      className={"absolute h-full flex items-center justify-center text-2xl"}
+      style={customStyle}
+    >
       {children}
     </div>
   );

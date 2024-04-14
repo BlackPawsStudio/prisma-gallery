@@ -7,8 +7,8 @@ const HomePage = () => {
       perspective: '500px',
     }}>
       <Prism
-        sides={new Array(4).fill('').map((_, id) => (
-          <div className='bg-white w-full h-full flex items-center justify-center' key={id}>{id}</div>
+        sides={new Array(12).fill('').map((_, id) => (
+          <div className='bg-white w-full h-full flex items-center justify-center text-white' key={id}>{id}</div>
         )).reverse()}
         height={250}
         width={300}

@@ -1,15 +1,48 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './app/**/*.{js,ts,jsx,tsx,mdx}',
-    './pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './components/**/*.{js,ts,jsx,tsx,mdx}',
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
 
     // Or if using `src` directory:
-    './src/**/*.{js,ts,jsx,tsx,mdx}',
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        main: "var(--main-color)",
+        mainDarker: "var(--main-darker-color)",
+        light: "var(--light-color)",
+      },
+      backgroundImage: {
+        lightGradient: `linear-gradient(
+          90deg,
+          transparent 5%,
+          var(--light-color) 20%,
+          transparent 35%,
+          var(--light-color) 50%,
+          transparent 65%,
+          var(--light-color) 80%,
+          transparent 95%
+        )`,
+      },
+      animation: {
+        lightMove: "lightMove ease-in-out infinite 10s",
+      },
+      keyframes: {
+        lightMove: {
+          "0%, 100%": {
+            transform:
+              "translateX(-50%) translateY(-25%) scaleY(200%) rotateX(30deg) rotateZ(-10deg)",
+          },
+          "50%": {
+            transform:
+              "translateX(-50%) translateY(-25%) scaleY(200%) rotateX(30deg) rotateZ(10deg)",
+          },
+        },
+      },
+    },
   },
   plugins: [],
 };
