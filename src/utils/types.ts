@@ -5,9 +5,19 @@ export interface IImage {
   artistId: string;
 }
 
+export interface IColors {
+  mainColor: string;
+  mainDarkerColor: string;
+  cardColor: string;
+  cardDarkerColor: string;
+  lightColor: string;
+  textColor: string;
+}
+
 export interface IUser {
   id: number;
   name: string;
   description: string;
   images: IImage[];
+  colors: IColors;
 }

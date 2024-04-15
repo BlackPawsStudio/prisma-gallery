@@ -5,5 +5,8 @@
 :root {
   --main-color: #00a2a2;
   --main-darker-color: #001314;
+  --card-color: transparent;
+  --card-darker-color: #001314;
   --light-color: #01dbdb;
+  --text-color: #fff;
 }
