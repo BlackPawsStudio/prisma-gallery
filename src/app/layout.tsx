@@ -10,6 +10,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <title>Prisma gallery</title>
       <body>{children}</body>
     </html>
   )

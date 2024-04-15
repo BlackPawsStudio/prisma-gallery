@@ -47,10 +47,10 @@ module.exports = {
         },
         rotate: {
           '0%': {
-            transform: 'rotate(0deg)',
+            transform: 'rotateY(0deg)',
           },
-          '90%': {
-            transform: 'rotate(360deg)'
+          '100%': {
+            transform: 'rotateY(360deg)'
           }
         }
       },
