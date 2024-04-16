@@ -98,7 +98,6 @@ const ArtistPage = ({ params }: { params: { id: string } }) => {
           height={clientHeight}
           width={clientWidth}
           sides={slides}
-          smooth="0.5s"
           showTile={slide}
           topColor={colors?.topColor ? colors.topColor : undefined}
           bottomColor={colors?.bottomColor ? colors.bottomColor : undefined}
