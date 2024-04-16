@@ -1,11 +1,23 @@
 "use client";
 import Prism from "@/components/Prism";
 import "./globals.css";
-import { useEffect, useState } from "react";
-import { data } from "@/demoInfo";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { ArtistTile } from "@/components/HomePage/ArtistTile";
+import { IUser } from "@/utils/types";
 
 const HomePage = () => {
+  const [data, setData] = useState<IUser[] | null>(null);
+
+  useLayoutEffect(() => {
+    const dbRequest = async () => {
+      const response = await await fetch(`/api/getUser`);
+      const responseData = await response.json();
+      console.log(responseData);
+      setData(responseData);
+    };
+    void dbRequest();
+  }, []);
+
   const [clientWidth, setClientWidth] = useState<number>(0);
   const [clientHeight, setClientHeight] = useState<number>(0);
 
@@ -35,11 +47,13 @@ const HomePage = () => {
           Create your own <i>prisma</i> gallery
           <br /> and view galleries of other artists
         </h2>
-        <div className="flex flex-wrap overflow-y-auto justify-center gap-5 mt-10 py-5">
-          {data.map((el) => (
-            <ArtistTile key={el.id} data={el} />
-          ))}
-        </div>
+        {data && (
+          <div className="flex flex-wrap overflow-y-auto justify-center gap-5 mt-10 py-5">
+            {data.map((el) => (
+              <ArtistTile key={el.id} data={el} />
+            ))}
+          </div>
+        )}
       </div>
       <Prism
         spinL

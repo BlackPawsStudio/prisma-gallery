@@ -1,5 +1,5 @@
-import { IUser } from '@/utils/types';
-import { useRouter } from 'next/navigation';
+import { IUser } from "@/utils/types";
+import { useRouter } from "next/navigation";
 
 interface ArtistTileProps {
   data: IUser;
@@ -19,7 +19,7 @@ export const ArtistTile = ({ data }: ArtistTileProps) => {
       onClick={() => router.push(`/artist/${data.id}`)}
     >
       <p className="text-2xl">{data.name}</p>
-      {data.images.length} items loaded
+      {data.count} items loaded
     </div>
   );
 };

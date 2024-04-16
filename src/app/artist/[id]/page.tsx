@@ -1,39 +1,64 @@
-'use client';
-import '@/app/globals.css';
-import 'swiper/css';
-import { useEffect, useMemo, useState } from 'react';
-import Prism from '@/components/Prism';
-import { TitleSlide } from '@/components/ArtistPage/TitleSlide';
-import { ImageSlide } from '@/components/ArtistPage/ImageSlide';
-import { data as usersData } from '@/demoInfo';
-import { useRouter } from 'next/navigation';
+"use client";
+import "@/app/globals.css";
+import "swiper/css";
+import { useEffect, useLayoutEffect, useMemo, useState } from "react";
+import Prism from "@/components/Prism";
+import { TitleSlide } from "@/components/ArtistPage/TitleSlide";
+import { ImageSlide } from "@/components/ArtistPage/ImageSlide";
+import { useRouter } from "next/navigation";
+import { IUser } from "@/utils/types";
 
 const ArtistPage = ({ params }: { params: { id: string } }) => {
-  const data = usersData.find((el) => el.id === params.id);
-  const colors = data?.colors;
+  const [data, setData] = useState<IUser | null>(null);
+
+  const colors = useMemo(() => (data ? data.colors : null), [data]);
+
+  useLayoutEffect(() => {
+    const dbRequest = async () => {
+      const response = await await fetch(`/api/getUser/${params.id}`);
+      const responseData = await response.json();
+      console.log(responseData);
+      setData(responseData);
+    };
+    void dbRequest();
+  }, [params.id]);
 
   useEffect(() => {
     if (colors) {
       const root = document.documentElement;
-      root.style.setProperty('--main-color', colors.mainColor);
-      root.style.setProperty('--main-darker-color', colors.mainDarkerColor || 'transparent');
-      root.style.setProperty('--card-color', colors.cardColor || 'transparent');
-      root.style.setProperty('--card-darker-color', colors.cardDarkerColor || 'transparent');
-      root.style.setProperty('--light-color', colors.lightColor || 'transparent');
-      root.style.setProperty('--text-color', colors.textColor);
-      root.style.setProperty('--top-color', colors.topColor || 'transparent');
-      root.style.setProperty('--bottom-color', colors.bottomColor || 'transparent');
+      root.style.setProperty("--main-color", colors.mainColor);
+      root.style.setProperty(
+        "--main-darker-color",
+        colors.mainDarkerColor || "transparent"
+      );
+      root.style.setProperty("--card-color", colors.cardColor || "transparent");
+      root.style.setProperty(
+        "--card-darker-color",
+        colors.cardDarkerColor || "transparent"
+      );
+      root.style.setProperty(
+        "--light-color",
+        colors.lightColor || "transparent"
+      );
+      root.style.setProperty("--text-color", colors.textColor);
+      root.style.setProperty("--top-color", colors.topColor || "transparent");
+      root.style.setProperty(
+        "--bottom-color",
+        colors.bottomColor || "transparent"
+      );
     }
   }, [colors]);
 
   const [slide, setSlide] = useState(-1);
 
-  const [clientWidth, setClientWidth] = useState(window.innerWidth);
-  const [clientHeight, setClientHeight] = useState(window.innerHeight);
+  const [clientWidth, setClientWidth] = useState(0);
+  const [clientHeight, setClientHeight] = useState(0);
 
   const router = useRouter();
 
   useEffect(() => {
+    setClientWidth(window.innerWidth);
+    setClientHeight(window.innerHeight);
     window.onload = () => {
       setClientWidth(window.innerWidth);
       setClientHeight(window.innerHeight);
@@ -45,33 +70,32 @@ const ArtistPage = ({ params }: { params: { id: string } }) => {
   }, []);
 
   const slides = useMemo(() => {
-    if (!data) {
-      router.push('/');
-      return [];
-    }
+    if (!data) return [];
     const title = <TitleSlide data={data} />;
-    const images = data.images.concat().map((el) => <ImageSlide data={el} key={el.id} />);
+    const images = data.images
+      ? data.images.concat().map((el) => <ImageSlide data={el} key={el.id} />)
+      : [];
 
     return [title, ...images].reverse();
-  }, [data, router]);
+  }, [data]);
 
-  if (!data) return;
+  if (!data || slides.length < 3) return <>bibibobo</>;
 
   return (
     <div
       className={
-        'relative w-screen h-screen flex items-center justify-center text-text overflow-hidden bg-gradient-to-b from-main to-mainDarker'
+        "relative w-screen h-screen flex items-center justify-center text-text overflow-hidden bg-gradient-to-b from-main to-mainDarker"
       }
     >
       <button
-        onClick={() => router.push('/')}
+        onClick={() => router.push("/")}
         className="fixed top-[5vh] right-[5vh] hover:scale-110 z-30 w-10 h-10 border-2 border-text rounded-full p-7"
       >
         <div className="absolute bg-text w-1 h-10 rounded-full rotate-45 top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2" />
         <div className="absolute bg-text w-1 h-10 rounded-full -rotate-45 top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2" />
       </button>
       <div
-        className={'-z-1 absolute w-full h-full top-0 left-0 overflow-hidden'}
+        className={"-z-1 absolute w-full h-full top-0 left-0 overflow-hidden"}
         style={{
           perspective: `${clientWidth / 3}px`,
         }}
@@ -90,7 +114,7 @@ const ArtistPage = ({ params }: { params: { id: string } }) => {
       </div>
       <div
         style={{
-          perspective: '500px',
+          perspective: "500px",
         }}
       >
         <Prism
@@ -101,8 +125,8 @@ const ArtistPage = ({ params }: { params: { id: string } }) => {
           showTile={slide}
           topColor={colors?.topColor ? colors.topColor : undefined}
           bottomColor={colors?.bottomColor ? colors.bottomColor : undefined}
-          sideColor={`linear-gradient(${colors?.cardColor || 'transparent'}, ${
-            colors?.cardDarkerColor || 'transparent'
+          sideColor={`linear-gradient(${colors?.cardColor || "transparent"}, ${
+            colors?.cardDarkerColor || "transparent"
           })`}
           border="2px solid var(--light-color)"
         />

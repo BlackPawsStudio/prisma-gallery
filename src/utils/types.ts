@@ -20,6 +20,7 @@ export interface IUser {
   id: string;
   name: string;
   description: string;
-  images: IImage[];
+  images?: IImage[];
   colors: IColors;
+  count?: string;
 }
