@@ -8,8 +8,23 @@ import { ImageSlide } from '@/components/ArtistPage/ImageSlide';
 import { data as usersData } from '@/demoInfo';
 import { useRouter } from 'next/navigation';
 
-const ArtistPage = () => {
-  const data = usersData[0];
+const ArtistPage = ({ params }: { params: { id: string } }) => {
+  const data = usersData.find((el) => el.id === params.id);
+  const colors = data?.colors;
+
+  useEffect(() => {
+    if (colors) {
+      const root = document.documentElement;
+      root.style.setProperty('--main-color', colors.mainColor);
+      root.style.setProperty('--main-darker-color', colors.mainDarkerColor || 'transparent');
+      root.style.setProperty('--card-color', colors.cardColor || 'transparent');
+      root.style.setProperty('--card-darker-color', colors.cardDarkerColor || 'transparent');
+      root.style.setProperty('--light-color', colors.lightColor || 'transparent');
+      root.style.setProperty('--text-color', colors.textColor);
+      root.style.setProperty('--top-color', colors.topColor || 'transparent');
+      root.style.setProperty('--bottom-color', colors.bottomColor || 'transparent');
+    }
+  }, [colors]);
 
   const [slide, setSlide] = useState(-1);
 
@@ -30,11 +45,17 @@ const ArtistPage = () => {
   }, []);
 
   const slides = useMemo(() => {
+    if (!data) {
+      router.push('/');
+      return [];
+    }
     const title = <TitleSlide data={data} />;
     const images = data.images.concat().map((el) => <ImageSlide data={el} key={el.id} />);
 
     return [title, ...images].reverse();
-  }, [data]);
+  }, [data, router]);
+
+  if (!data) return;
 
   return (
     <div
@@ -44,10 +65,10 @@ const ArtistPage = () => {
     >
       <button
         onClick={() => router.push('/')}
-        className="fixed top-[5vh] right-[5vh] hover:scale-110 z-30 bg-transparent w-10 h-10 border-2 border-mainDarker rounded-full p-7"
+        className="fixed top-[5vh] right-[5vh] hover:scale-110 z-30 w-10 h-10 border-2 border-text rounded-full p-7"
       >
-        <div className="absolute bg-mainDarker w-1 h-10 rounded-full rotate-45 top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2" />
-        <div className="absolute bg-mainDarker w-1 h-10 rounded-full -rotate-45 top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2" />
+        <div className="absolute bg-text w-1 h-10 rounded-full rotate-45 top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2" />
+        <div className="absolute bg-text w-1 h-10 rounded-full -rotate-45 top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2" />
       </button>
       <div
         className={'-z-1 absolute w-full h-full top-0 left-0 overflow-hidden'}
@@ -79,9 +100,11 @@ const ArtistPage = () => {
           sides={slides}
           smooth="0.5s"
           showTile={slide}
-          topColor={'transparent'}
-          sideColor={'linear-gradient(var(--card-color), var(--card-darker-color))'}
-          bottomColor={'var(--card-darker-color)'}
+          topColor={colors?.topColor ? colors.topColor : undefined}
+          bottomColor={colors?.bottomColor ? colors.bottomColor : undefined}
+          sideColor={`linear-gradient(${colors?.cardColor || 'transparent'}, ${
+            colors?.cardDarkerColor || 'transparent'
+          })`}
           border="2px solid var(--light-color)"
         />
       </div>

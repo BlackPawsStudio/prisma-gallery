@@ -1,5 +1,5 @@
 export interface IImage {
-  id: number;
+  id: string;
   title: string;
   url: string;
   artistId: string;
@@ -7,15 +7,17 @@ export interface IImage {
 
 export interface IColors {
   mainColor: string;
-  mainDarkerColor: string;
-  cardColor: string;
-  cardDarkerColor: string;
-  lightColor: string;
+  mainDarkerColor?: string;
+  lightColor?: string;
   textColor: string;
+  topColor?: string;
+  cardColor?: string;
+  cardDarkerColor?: string;
+  bottomColor?: string;
 }
 
 export interface IUser {
-  id: number;
+  id: string;
   name: string;
   description: string;
   images: IImage[];

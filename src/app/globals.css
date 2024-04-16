@@ -3,10 +3,12 @@
 @tailwind utilities;
 
 :root {
-  --main-color: #00a2a2;
-  --main-darker-color: #001314;
+  --main-color: transparent;
+  --main-darker-color: transparent;
   --card-color: transparent;
-  --card-darker-color: #001314;
-  --light-color: #01dbdb;
-  --text-color: #fff;
+  --card-darker-color: transparent;
+  --light-color: transparent;
+  --text-color: transparent;
+  --top-color: transparent;
+  --bottom-color: transparent;
 }
