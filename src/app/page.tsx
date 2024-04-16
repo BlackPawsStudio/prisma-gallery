@@ -1,15 +1,17 @@
-'use client';
-import Prism from '@/components/Prism';
-import './globals.css';
-import { useEffect, useState } from 'react';
-import { data } from '@/demoInfo';
-import { ArtistTile } from '@/components/HomePage/ArtistTile';
+"use client";
+import Prism from "@/components/Prism";
+import "./globals.css";
+import { useEffect, useState } from "react";
+import { data } from "@/demoInfo";
+import { ArtistTile } from "@/components/HomePage/ArtistTile";
 
 const HomePage = () => {
-  const [clientWidth, setClientWidth] = useState(window.innerWidth);
-  const [clientHeight, setClientHeight] = useState(window.innerHeight);
+  const [clientWidth, setClientWidth] = useState<number>(0);
+  const [clientHeight, setClientHeight] = useState<number>(0);
 
   useEffect(() => {
+    setClientWidth(window.innerWidth);
+    setClientHeight(window.innerHeight);
     window.onload = () => {
       setClientWidth(window.innerWidth);
       setClientHeight(window.innerHeight);
@@ -24,7 +26,7 @@ const HomePage = () => {
     <div
       className="absolute w-screen h-screen flex items-center overflow-hidden justify-center bg-gradient-to-b from-white via-white to-black"
       style={{
-        perspective: '500px',
+        perspective: "500px",
       }}
     >
       <div className="fixed top-[5vh] left-1/2 w-1/3 -translate-x-1/2 text-center text-black flex flex-col gap-2 z-50">
@@ -40,10 +42,10 @@ const HomePage = () => {
         </div>
       </div>
       <Prism
-        spin
+        spinL
         outer
         sideColor="linear-gradient(black, white)"
-        sides={new Array(4).fill('')}
+        sides={new Array(4).fill("")}
         height={clientHeight}
         width={clientWidth}
         border="5px solid #000"
