@@ -4,6 +4,7 @@ import "./globals.css";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { ArtistTile } from "@/components/HomePage/ArtistTile";
 import { IUser } from "@/utils/types";
+import { useRouter } from "next/navigation";
 
 const HomePage = () => {
   const [data, setData] = useState<IUser[] | null>(null);
@@ -34,6 +35,8 @@ const HomePage = () => {
     };
   }, []);
 
+  const router = useRouter();
+
   return (
     <div
       className="absolute w-screen h-screen flex items-center overflow-hidden justify-center bg-gradient-to-b from-white via-white to-black"
@@ -55,6 +58,12 @@ const HomePage = () => {
           </div>
         )}
       </div>
+      <button
+        onClick={() => router.push("/artist/create")}
+        className="fixed top-[2vh] right-[5vh] hover:scale-110 z-30 border-2 border-black rounded-full py-3 px-5 backdrop-invert mix-blend-difference text-white transition-all"
+      >
+        Create your own gallery
+      </button>
       <Prism
         spinL
         outer
