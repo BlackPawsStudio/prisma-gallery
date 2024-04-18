@@ -38,6 +38,32 @@ const ProfilePage = ({ data }: { data: IUser }) => {
     }
   }, [colors]);
 
+  useEffect(() => {
+    if (colors) {
+      const root = document.documentElement;
+      root.style.setProperty("--main-color", colors.mainColor);
+      root.style.setProperty(
+        "--main-darker-color",
+        colors.mainDarkerColor || "transparent"
+      );
+      root.style.setProperty("--card-color", colors.cardColor || "transparent");
+      root.style.setProperty(
+        "--card-darker-color",
+        colors.cardDarkerColor || "transparent"
+      );
+      root.style.setProperty(
+        "--light-color",
+        colors.lightColor || "transparent"
+      );
+      root.style.setProperty("--text-color", colors.textColor);
+      root.style.setProperty("--top-color", colors.topColor || "transparent");
+      root.style.setProperty(
+        "--bottom-color",
+        colors.bottomColor || "transparent"
+      );
+    }
+  }, [colors]);
+
   const router = useRouter();
 
   const [name, setName] = useState<string>(data.name || "");
@@ -99,7 +125,6 @@ const ProfilePage = ({ data }: { data: IUser }) => {
     });
 
     const responseData = await response.json();
-    console.log(responseData);
   };
 
   return (

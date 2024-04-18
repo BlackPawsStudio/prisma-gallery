@@ -74,3 +74,17 @@ export const PUT = async (req: NextRequest, context: { params: Params }) => {
 
   return new NextResponse(JSON.stringify(data));
 };
+
+export const DELETE = async (req: NextRequest, context: { params: Params }) => {
+  const userId = context.params.id as string;
+
+  if (!userId) {
+    return new NextResponse(JSON.stringify(null), { status: 500 });
+  }
+
+  client.connect();
+
+  await client.query(`DELETE FROM users WHERE id = '${userId}'`);
+
+  return new NextResponse(JSON.stringify({ id: userId }));
+};

@@ -27,7 +27,7 @@ const HomePage = () => {
 
   const [clientWidth, setClientWidth] = useState<number>(0);
   const [clientHeight, setClientHeight] = useState<number>(0);
-  
+
   const [userName, setUserName] = useState<string | null>("");
 
   useEffect(() => {
@@ -72,7 +72,7 @@ const HomePage = () => {
       {userName ? (
         <>
           <button
-            onClick={() => router.push(`/artist/${userName}`)}
+            onClick={() => router.push("/profile")}
             className="fixed top-[2vh] right-[5vh] hover:scale-110 z-30 border-2 border-black rounded-full py-3 px-5 backdrop-invert mix-blend-difference text-white transition-all"
           >
             Visit your profile

@@ -30,8 +30,6 @@ export const LogInModal = ({ close }: LogInModalProps) => {
 
     const data = await loginResponse.json();
 
-    console.log(data);
-
     const { success, error, id } = data;
 
     if (error) {

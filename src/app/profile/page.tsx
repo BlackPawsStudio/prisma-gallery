@@ -1,28 +1,32 @@
 "use client";
-import "@/app/globals.css";
-import "swiper/css";
-import { useLayoutEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { IUser } from "@/utils/types";
+import { AdminPanel } from "@/components/ProfilePage/AdminPanel";
+import ProfilePage from "@/components/ProfilePage/ProfilePage";
 import { Spinner } from "@/components/Spinner";
-import ArtistPageComponent from "@/components/ArtistPage/ArtistPage";
+import { IUser } from "@/utils/types";
+import { useLayoutEffect, useState } from "react";
 
-const ArtistPage = ({ params }: { params: { id: string } }) => {
+const ProfilePageComponent = () => {
   const [data, setData] = useState<IUser | null>(null);
 
+  const [id, setId] = useState<string | null>("");
+
   useLayoutEffect(() => {
+    const userId = localStorage.getItem("nickname");
+    setId(userId);
     const dbRequest = async () => {
-      const response = await await fetch(`/api/user/${params.id}`);
+      const response = await await fetch(`/api/user/${userId}`);
       const responseData = await response.json();
       setData(responseData);
       setIsLoading(false);
     };
     void dbRequest();
-  }, [params.id]);
-
-  const router = useRouter();
+  }, []);
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  if (data?.name === "admin") {
+    return <AdminPanel />;
+  }
 
   if (isLoading) {
     return (
@@ -32,12 +36,7 @@ const ArtistPage = ({ params }: { params: { id: string } }) => {
     );
   }
 
-  if (!isLoading && !data) {
-    router.push("/");
-    return;
-  }
-
-  return data && <ArtistPageComponent data={data} />;
+  return data && <ProfilePage data={data} />;
 };
 
-export default ArtistPage;
+export default ProfilePageComponent;
