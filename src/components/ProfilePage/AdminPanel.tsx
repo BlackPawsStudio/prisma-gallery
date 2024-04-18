@@ -13,7 +13,6 @@ export const AdminPanel = () => {
       const response = await fetch("/api/getAll");
       const responseData = await response.json();
       setUsersData(responseData);
-      console.log(responseData);
       setIsLoading(false);
     };
     void dbRequest();

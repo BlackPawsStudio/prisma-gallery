@@ -51,7 +51,6 @@ export const GET = async () => {
     },
     images: imagesData
       .filter((imageData) => {
-        console.log(imageData.artistid, userData.id.toString());
         return imageData.artistid === userData.id;
       })
       .map((imageData) => ({
@@ -61,8 +60,6 @@ export const GET = async () => {
         title: imageData.title,
       })),
   }));
-
-  console.log(responseData);
 
   return new NextResponse(JSON.stringify(responseData));
 };
