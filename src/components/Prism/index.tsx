@@ -66,31 +66,29 @@ const Prism = ({
     >
       {sides.map((el, id) => (
         <Fragment key={id}>
-          {topColor ||
-            topColor !== "transparent" ||
+          {topColor &&
+            topColor !== "transparent" &&
             !(
-              topColor?.length === 9 &&
-              topColor[8] === "0" &&
-              topColor[9] === "0" && (
-                <Side
-                  customStyle={{
-                    width: `${size}px`,
-                    height: 0,
-                    transition: "all .5s",
-                    transformOrigin: "top",
-                    borderBottom: `${space}px solid ${
-                      topColor || "transparent"
-                    }`,
-                    borderRight: `${size / 2}px solid transparent`,
-                    borderLeft: `${size / 2}px solid transparent`,
-                    borderTop: "0",
-                    transform: `translateX(${(width - size) / 2}px) rotateY(${
-                      (360 / sides.length) * id
-                    }deg)
+              topColor.length === 9 &&
+              topColor[7] === "0" &&
+              topColor[8] === "0"
+            ) && (
+              <Side
+                customStyle={{
+                  width: `${size}px`,
+                  height: 0,
+                  transition: "all .5s",
+                  transformOrigin: "top",
+                  borderBottom: `${space}px solid ${topColor || "transparent"}`,
+                  borderRight: `${size / 2}px solid transparent`,
+                  borderLeft: `${size / 2}px solid transparent`,
+                  borderTop: "0",
+                  transform: `translateX(${(width - size) / 2}px) rotateY(${
+                    (360 / sides.length) * id
+                  }deg)
               translateZ(${space}px) rotateX(90deg) translateY(-${space}px)`,
-                  }}
-                />
-              )
+                }}
+              />
             )}
           <Side
             customStyle={{
@@ -107,32 +105,30 @@ const Prism = ({
           >
             {el}
           </Side>
-          {bottomColor ||
-            bottomColor !== "transparent" ||
+          {bottomColor &&
+            bottomColor !== "transparent" &&
             !(
               bottomColor?.length === 9 &&
-              bottomColor[8] === "0" &&
-              bottomColor[9] === "0" && (
-                <Side
-                  customStyle={{
-                    width: `${size}px`,
-                    height: "0",
-                    bottom: 0,
-                    transition: "all .5s",
-                    transformOrigin: "bottom",
-                    borderTop: `${space}px solid ${
-                      bottomColor || "transparent"
-                    }`,
-                    borderRight: `${size / 2}px solid transparent`,
-                    borderLeft: `${size / 2}px solid transparent`,
-                    borderBottom: "0",
-                    transform: `translateX(${(width - size) / 2}px) rotateY(${
-                      (360 / sides.length) * id
-                    }deg)
+              bottomColor[7] === "0" &&
+              bottomColor[8] === "0"
+            ) && (
+              <Side
+                customStyle={{
+                  width: `${size}px`,
+                  height: "0",
+                  bottom: 0,
+                  transition: "all .5s",
+                  transformOrigin: "bottom",
+                  borderTop: `${space}px solid ${bottomColor || "transparent"}`,
+                  borderRight: `${size / 2}px solid transparent`,
+                  borderLeft: `${size / 2}px solid transparent`,
+                  borderBottom: "0",
+                  transform: `translateX(${(width - size) / 2}px) rotateY(${
+                    (360 / sides.length) * id
+                  }deg)
               translateZ(${space}px) rotateX(-90deg) translateY(${space}px)`,
-                  }}
-                />
-              )
+                }}
+              />
             )}
         </Fragment>
       ))}
