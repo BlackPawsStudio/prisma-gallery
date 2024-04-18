@@ -42,7 +42,7 @@ export const LogInModal = ({ close }: LogInModalProps) => {
 
     if (success) {
       close();
-      localStorage.setItem("nickname", nickname);
+      localStorage.setItem("nickname", id);
       router.push(`/artist/${id}`);
       setIsLoading(false);
     }

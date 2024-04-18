@@ -27,6 +27,8 @@ const HomePage = () => {
 
   const [clientWidth, setClientWidth] = useState<number>(0);
   const [clientHeight, setClientHeight] = useState<number>(0);
+  
+  const [userName, setUserName] = useState<string | null>("");
 
   useEffect(() => {
     setClientWidth(window.innerWidth);
@@ -39,6 +41,7 @@ const HomePage = () => {
       setClientWidth(window.innerWidth);
       setClientHeight(window.innerHeight);
     };
+    setUserName(localStorage.getItem("nickname"));
   }, []);
 
   const router = useRouter();
@@ -66,18 +69,40 @@ const HomePage = () => {
           </div>
         )}
       </div>
-      <button
-        onClick={() => router.push("/artist/create")}
-        className="fixed top-[2vh] right-[5vh] hover:scale-110 z-30 border-2 border-black rounded-full py-3 px-5 backdrop-invert mix-blend-difference text-white transition-all"
-      >
-        Create your own gallery
-      </button>
-      <button
-        onClick={() => setShowModal(true)}
-        className="fixed top-[8vh] right-[5vh] hover:scale-110 z-30 border-2 border-black rounded-full py-3 px-5 backdrop-invert mix-blend-difference text-white transition-all"
-      >
-        Log in
-      </button>
+      {userName ? (
+        <>
+          <button
+            onClick={() => router.push(`/artist/${userName}`)}
+            className="fixed top-[2vh] right-[5vh] hover:scale-110 z-30 border-2 border-black rounded-full py-3 px-5 backdrop-invert mix-blend-difference text-white transition-all"
+          >
+            Visit your profile
+          </button>
+          <button
+            onClick={() => {
+              localStorage.removeItem("nickname");
+              setUserName(null);
+            }}
+            className="fixed top-[8vh] right-[5vh] hover:scale-110 z-30 border-2 border-black rounded-full py-3 px-5 backdrop-invert mix-blend-difference text-white transition-all"
+          >
+            Log out
+          </button>
+        </>
+      ) : (
+        <>
+          <button
+            onClick={() => router.push("/create")}
+            className="fixed top-[2vh] right-[5vh] hover:scale-110 z-30 border-2 border-black rounded-full py-3 px-5 backdrop-invert mix-blend-difference text-white transition-all"
+          >
+            Create your own gallery
+          </button>
+          <button
+            onClick={() => setShowModal(true)}
+            className="fixed top-[8vh] right-[5vh] hover:scale-110 z-30 border-2 border-black rounded-full py-3 px-5 backdrop-invert mix-blend-difference text-white transition-all"
+          >
+            Log in
+          </button>
+        </>
+      )}
       <Prism
         spinL
         outer

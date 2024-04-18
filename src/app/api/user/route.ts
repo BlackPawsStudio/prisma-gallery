@@ -1,7 +1,6 @@
 import { client } from "@/utils/pgClient";
 import { IUser } from "@/utils/types";
 import { NextRequest, NextResponse } from "next/server";
-import { SHA256 } from "crypto-ts";
 import { hash } from "@/utils/hash";
 
 type ResponseData = {
@@ -52,7 +51,6 @@ export const POST = async (req: NextRequest) => {
   const { username, password, colors } = await req.json();
 
   const data = {
-    id: hash(username + password),
     name: username,
     description: "",
     maincolor: colors.mainColor,
@@ -63,25 +61,24 @@ export const POST = async (req: NextRequest) => {
     bottomcolor: colors.bottomColor,
     textcolor: colors.textColor,
     lightcolor: colors.lightColor,
-    password: hash(password),
+    password: password,
   };
 
   client.connect();
 
   await client.query(
-    `INSERT INTO users (id, name, description, maincolor, maindarkercolor, topcolor, cardcolor, carddarkercolor, bottomcolor, textcolor, lightcolor, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`,
+    `INSERT INTO users (name, description, maincolor, maindarkercolor, lightcolor, textcolor, topcolor, cardcolor, carddarkercolor, bottomcolor, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
     [
-      data.id,
       data.name,
       data.description,
       data.maincolor,
       data.maindarkercolor,
+      data.lightcolor,
+      data.textcolor,
       data.topcolor,
       data.cardcolor,
       data.carddarkercolor,
       data.bottomcolor,
-      data.textcolor,
-      data.lightcolor,
       data.password,
     ]
   );

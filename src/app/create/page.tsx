@@ -6,6 +6,8 @@ import Prism from "@/components/Prism";
 import { IColors } from "@/utils/types";
 import { useRouter } from "next/navigation";
 import { EditColorsForm } from "@/components/CreatePage/EditColorsForm";
+import { Spinner } from "@/components/Spinner";
+import { hash } from "@/utils/hash";
 
 const CreatePage = () => {
   const [colors, setColors] = useState<IColors>({
@@ -54,12 +56,14 @@ const CreatePage = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const onSubmit = async () => {
     if (!username || !password) {
       alert("Please fill in all fields");
       return;
     }
-    console.log("submit", username, password);
+    setIsLoading(true);
 
     const validationResponse = await await fetch(
       `/api/user/checkUsername/?name=${username}`
@@ -76,13 +80,14 @@ const CreatePage = () => {
       method: "POST",
       body: JSON.stringify({
         username,
-        password,
+        password: hash(password),
         colors,
       }),
     });
 
     const responseData = await response.json();
 
+    setIsLoading(false);
     if (responseData.success) router.push("/");
   };
 
@@ -125,12 +130,16 @@ const CreatePage = () => {
         />
       </div>
 
-      <button
-        onClick={onSubmit}
-        className="absolute w-1/5 bottom-10 left-1/2 -translate-x-1/2 p-4 border-black rounded-full bg-white text-black border-2 text-center hover:scale-110 hover:bg-black hover:text-white transition-all active:scale-95"
-      >
-        Create account!
-      </button>
+      {isLoading ? (
+        <Spinner className="mx-auto" width={230} height={60} />
+      ) : (
+        <button
+          onClick={onSubmit}
+          className="absolute w-1/5 bottom-10 left-1/2 -translate-x-1/2 p-4 border-black rounded-full bg-white text-black border-2 text-center hover:scale-110 hover:bg-black hover:text-white transition-all active:scale-95"
+        >
+          Create account!
+        </button>
+      )}
 
       <div className="w-1/3 z-10 overflow-y-auto h-1/2">
         <EditColorsForm colors={colors} setColors={setColors} />
