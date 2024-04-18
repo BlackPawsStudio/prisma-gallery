@@ -15,7 +15,7 @@ const ArtistPage = ({ params }: { params: { id: string } }) => {
 
   useLayoutEffect(() => {
     const dbRequest = async () => {
-      const response = await await fetch(`/api/getUser/${params.id}`);
+      const response = await await fetch(`/api/user/${params.id}`);
       const responseData = await response.json();
       console.log(responseData);
       setData(responseData);

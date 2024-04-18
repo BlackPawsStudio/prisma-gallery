@@ -5,16 +5,22 @@ import { useEffect, useLayoutEffect, useState } from "react";
 import { ArtistTile } from "@/components/HomePage/ArtistTile";
 import { IUser } from "@/utils/types";
 import { useRouter } from "next/navigation";
+import { LogInModal } from "@/components/HomePage/LogInModal";
+import { Spinner } from "@/components/Spinner";
 
 const HomePage = () => {
   const [data, setData] = useState<IUser[] | null>(null);
 
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const [showModal, setShowModal] = useState<boolean>(false);
+
   useLayoutEffect(() => {
     const dbRequest = async () => {
-      const response = await await fetch(`/api/getUser`);
+      const response = await await fetch(`/api/user`);
       const responseData = await response.json();
-      console.log(responseData);
       setData(responseData);
+      setIsLoading(false);
     };
     void dbRequest();
   }, []);
@@ -44,13 +50,15 @@ const HomePage = () => {
         perspective: "500px",
       }}
     >
-      <div className="fixed top-[5vh] left-1/2 w-1/3 -translate-x-1/2 text-center text-black flex flex-col gap-2 z-50">
+      {showModal && <LogInModal close={() => setShowModal(false)} />}
+      <div className="fixed top-[5vh] left-1/2 w-1/3 -translate-x-1/2 text-center text-black flex flex-col gap-2 z-40">
         <h1 className="text-4xl font-bold">PRISMA GALLERY</h1>
         <h2 className="text-xl">
           Create your own <i>prisma</i> gallery
           <br /> and view galleries of other artists
         </h2>
-        {data && (
+        {isLoading && <Spinner className="mx-auto mt-32" />}
+        {data && !isLoading && (
           <div className="flex flex-wrap overflow-y-auto justify-center gap-5 mt-10 py-5">
             {data.map((el) => (
               <ArtistTile key={el.id} data={el} />
@@ -63,6 +71,12 @@ const HomePage = () => {
         className="fixed top-[2vh] right-[5vh] hover:scale-110 z-30 border-2 border-black rounded-full py-3 px-5 backdrop-invert mix-blend-difference text-white transition-all"
       >
         Create your own gallery
+      </button>
+      <button
+        onClick={() => setShowModal(true)}
+        className="fixed top-[8vh] right-[5vh] hover:scale-110 z-30 border-2 border-black rounded-full py-3 px-5 backdrop-invert mix-blend-difference text-white transition-all"
+      >
+        Log in
       </button>
       <Prism
         spinL

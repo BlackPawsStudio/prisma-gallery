@@ -23,4 +23,5 @@ export interface IUser {
   images?: IImage[];
   colors: IColors;
   count?: string;
+  password?: string;
 }
